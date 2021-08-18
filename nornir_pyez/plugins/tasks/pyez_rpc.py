@@ -1,10 +1,6 @@
-import copy
-from typing import Any, Dict, List, Optional
+from typing import Dict
 from nornir.core.task import Result, Task
 from nornir_pyez.plugins.connections import CONNECTION_NAME
-from lxml import etree
-import xmltodict
-import json
 
 
 def pyez_rpc(
@@ -19,7 +15,4 @@ def pyez_rpc(
         data = function(**extras)
     else:
         data = function()
-    data = etree.tostring(data, encoding='unicode', pretty_print=True)
-    parsed = xmltodict.parse(data)
-    clean_parse = json.loads(json.dumps(parsed))
-    return Result(host=task.host, result=clean_parse)
+    return Result(host=task.host, result=data)
